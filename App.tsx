@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import "react-native-reanimated";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
+import PlannificationsScreen from "./screens/PlannificationsScreen";
+import PedagogicalJournalScreen from "./screens/PedagogicalJournalScreen";
+import JournalScreen from "./screens/JournalScreen";
 
-export default function App() {
+const App: React.FC = () => {
+  const Drawer = createDrawerNavigator();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen
+          name="Plannifications"
+          component={PlannificationsScreen}
+        />
+        <Drawer.Screen
+          name=" Pedagogical Journal"
+          component={PedagogicalJournalScreen}
+        />
+        <Drawer.Screen name="Journal" component={JournalScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
