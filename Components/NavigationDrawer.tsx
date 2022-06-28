@@ -17,9 +17,6 @@ const NavigationDrawer: React.FC = (props: any) => {
           <DrawerItemList {...props} />
         </DrawerContentScrollView>
       </View>
-      {/* <View style={styles.drawerFooterContainer}>
-        <Text>تسجيل الخروج</Text>
-      </View> */}
     </View>
   );
 };

@@ -1,32 +1,27 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { ListItem } from "@rneui/themed";
+import React, { useEffect, useState } from "react";
+import { ListItem, Avatar } from "@rneui/themed";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AddNotes from "../Components/AddNotes";
 
-const JournalScreen: React.FC<any> = () => {
-  const list = [
-    {
-      name: "Amy Farha",
-      avatar_url:
-        "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-      subtitle: "Vice President",
-    },
-    {
-      name: "Chris Jackson",
-      avatar_url:
-        "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
-      subtitle: "Vice Chairman",
-    },
-  ];
+const JournalScreen: React.FC = () => {
   return (
-    <View>
-      {list.map((l, i) => (
-        <ListItem key={i} bottomDivider>
-          <ListItem.Content>
-            <ListItem.Title>{l.name}</ListItem.Title>
-            <ListItem.Subtitle>{l.subtitle}</ListItem.Subtitle>
-          </ListItem.Content>
-        </ListItem>
-      ))}
+    <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <AddNotes />
+      </View>
+      <View style={styles.notesContainer}>
+        {/* {notes.map((item, index) => (
+          <ListItem key={index} bottomDivider style={styles.singleNote}>
+            <Avatar source={{ uri: item.avatar_url }} />
+            <ListItem.Content>
+              <ListItem.Title>{item.name}</ListItem.Title>
+              <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
+              <Button>edit</Button>
+            </ListItem.Content>
+          </ListItem>
+        ))} */}
+      </View>
     </View>
   );
 };
@@ -35,10 +30,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
   },
-  text: {
-    textAlign: "center",
+  headerContainer: {
+    width: "100%",
+    height: 80,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  notesContainer: {
+    width: "100%",
+  },
+  singleNote: {
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "red",
   },
 });
 
