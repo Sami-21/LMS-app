@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ListItem, Avatar } from "@rneui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AddNotes from "../Components/AddNotes";
+import AddNotes from "../../Components/AddNotes";
 
 const JournalScreen: React.FC = () => {
   return (

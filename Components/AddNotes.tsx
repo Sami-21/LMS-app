@@ -32,7 +32,7 @@ const AddNotes = () => {
         size="small"
         onPress={toggleDialog}
       />
-      <Text style={styles.headerText}>الملاحظات</Text>
+      <Text style={styles.headerText}>notes</Text>
       <Dialog isVisible={visible} onBackdropPress={toggleDialog}>
         <Dialog.Title title="ملاحظةجديدة" />
         <Controller

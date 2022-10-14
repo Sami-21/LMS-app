@@ -4,7 +4,7 @@ import React from "react";
 const PlannificationsScreen: React.FC<any> = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>شاشة المخططات</Text>
+      <Text style={styles.text}>test</Text>
     </View>
   );
 };

@@ -17,7 +17,7 @@ const NavigationHeader = ({ navigation, route }: Props) => {
         rounded
         source={require("../assets/profile.jpg")}
         containerStyle={{ margin: 20 }}
-        onPress={() => navigation.navigate("اﻷعدادات")}
+        onPress={() => navigation.navigate("settings")}
       />
       <Text style={styles.headerText}>{route.name}</Text>
       <DrawerToggleButton />
