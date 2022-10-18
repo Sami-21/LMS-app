@@ -4,12 +4,12 @@ import { Avatar } from "@rneui/themed";
 import { DrawerToggleButton } from "@react-navigation/drawer";
 import { ParamListBase, RouteProp } from "@react-navigation/native";
 
-interface Props {
+interface props {
   navigation: any;
   route: RouteProp<ParamListBase>;
 }
 
-const NavigationHeader = ({ navigation, route }: Props) => {
+const NavigationHeader: React.FC<props> = ({ navigation, route }) => {
   return (
     <View style={styles.headerContainer}>
       <Avatar

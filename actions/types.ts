@@ -1,0 +1,1 @@
+export const AUTHENTICATE_USER: string = "AUTHENTICATE_USER";

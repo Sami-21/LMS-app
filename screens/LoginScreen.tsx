@@ -18,8 +18,14 @@ const LoginScreen: React.FC<any> = () => {
             <Controller
                 control={control}
                 rules={{
-                    required: true,
-                    minLength: 4,
+                    required: {
+                        value: true,
+                        message: "your email is required"
+                    },
+                    pattern: {
+                        value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: "invalid email",
+                    }
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -31,12 +37,25 @@ const LoginScreen: React.FC<any> = () => {
                 )}
                 name="email"
             />
-            {errors.email && <Text style={styles.errorMessage}>{errors.email.message} </Text>}
+            {errors.email && (
+                <Text style={styles.errorMessage}>{errors.email.message} </Text>
+            )}
             <Text>Password</Text>
             <Controller
                 control={control}
                 rules={{
-                    maxLength: 100,
+                    required: {
+                        value: true,
+                        message: "password is required"
+                    },
+                    minLength: {
+                        value: 4,
+                        message: "password should be atleast 4 characters"
+                    },
+                    maxLength: {
+                        value: 100,
+                        message: "password should be less the 100 characters"
+                    },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -49,14 +68,13 @@ const LoginScreen: React.FC<any> = () => {
                 )}
                 name="password"
             />
-            {errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
+            {errors.password && (
+                <Text style={styles.errorMessage}>{errors.password.message}</Text>
+            )}
 
             <Button title="Submit" onPress={handleSubmit(onSubmit)} />
 
-            {/* <Text>Email</Text>
-            <Input style={styles.inputFields} />
-            <Input style={styles.inputFields} secureTextEntry={true} />
-            <Button>Login</Button> */}
+
         </View>
     )
 }
@@ -82,12 +100,13 @@ const styles = StyleSheet.create({
     inputFields: {
         width: 300,
         height: 50,
-        margin: 25,
-        marginHorizontal: 25,
+        marginVertical: 25,
+        padding: 15,
         backgroundColor: "#fff",
     },
     errorMessage: {
         color: "red",
+        marginBottom: 15,
     },
 
     loginBtn: {

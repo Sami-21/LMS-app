@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -6,7 +6,7 @@ import {
 import React from "react";
 import { Avatar } from "@rneui/themed";
 
-const NavigationDrawer: React.FC = (props: any) => {
+const NavigationDrawer: React.FC<any> = (props) => {
   return (
     <View style={styles.drawerContainer}>
       <View style={styles.profileContainer}>
