@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
+    "entryPoint": "./index.ts",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,6 +20,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.example.app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

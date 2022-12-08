@@ -5,14 +5,22 @@ import { Button } from "@rneui/base";
 const WelcomeScreen: React.FC<any> = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to El Modarib</Text>
+      <Text style={styles.text}>Welcome to El Modarib !</Text>
       <View style={styles.btnsContainer}>
-        <Button onPress={() => {
-          navigation.navigate("Signup");
-        }}>Sign up</Button>
-        <Button onPress={() => {
-          navigation.navigate("Login");
-        }}>Log in</Button>
+        <Button
+          onPress={() => {
+            navigation.navigate("Signup");
+          }}
+        >
+          Sign up
+        </Button>
+        <Button
+          onPress={() => {
+            navigation.navigate("Login");
+          }}
+        >
+          Log in
+        </Button>
       </View>
     </View>
   );

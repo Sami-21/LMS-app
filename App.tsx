@@ -8,7 +8,10 @@ import JournalScreen from "./screens/Journal";
 import NavigationDrawer from "./Components/NavigationDrawer";
 import SettingScreen from "./screens/Settings";
 import NavigationHeader from "./Components/NavigationHeader";
-import { createNativeStackNavigator, NativeStackNavigationOptions } from "@react-navigation/native-stack";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from "@react-navigation/native-stack";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import SignupScreen from "./screens/SignupScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -16,7 +19,7 @@ import { useState } from "react";
 
 interface screen {
   name: string;
-  component: React.FC<any>;
+  component: React.FC;
 }
 
 const App: React.FC = () => {
@@ -38,16 +41,16 @@ const App: React.FC = () => {
     headerStyle: {
       backgroundColor: "#0758FB",
     },
-    headerTintColor: '#ddd',
+    headerTintColor: "#ddd",
     headerTitleStyle: {
-      fontWeight: 'bold',
+      fontWeight: "bold",
       fontSize: 25,
     },
     headerTitleAlign: "center",
-  }
+  };
   return (
     <NavigationContainer>
-      {authenticated ?
+      {authenticated ? (
         <Drawer.Navigator
           drawerContent={(props) => <NavigationDrawer {...props} />}
           screenOptions={{
@@ -67,9 +70,8 @@ const App: React.FC = () => {
             />
           ))}
         </Drawer.Navigator>
-        :
-        <Stack.Navigator
-          screenOptions={stackNavigatorScreenoption}>
+      ) : (
+        <Stack.Navigator screenOptions={stackNavigatorScreenoption}>
           {preAuthScreens.map((screen: screen, index: number) => (
             <Stack.Screen
               key={index}
@@ -79,10 +81,7 @@ const App: React.FC = () => {
             ></Stack.Screen>
           ))}
         </Stack.Navigator>
-      }
-
-
-
+      )}
     </NavigationContainer>
   );
 };
