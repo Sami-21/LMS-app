@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Avatar } from "@rneui/themed";
 import { DrawerToggleButton } from "@react-navigation/drawer";
 import { ParamListBase, RouteProp } from "@react-navigation/native";
 
@@ -12,13 +11,6 @@ interface props {
 const NavigationHeader: React.FC<props> = ({ navigation, route }) => {
   return (
     <View style={styles.headerContainer}>
-      <Avatar
-        size={44}
-        rounded
-        source={require("../assets/profile.jpg")}
-        containerStyle={{ margin: 20 }}
-        onPress={() => navigation.navigate("settings")}
-      />
       <Text style={styles.headerText}>{route.name}</Text>
       <DrawerToggleButton />
     </View>

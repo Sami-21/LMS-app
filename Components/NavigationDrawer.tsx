@@ -10,7 +10,7 @@ const NavigationDrawer: React.FC<any> = (props) => {
   return (
     <View style={styles.drawerContainer}>
       <View style={styles.profileContainer}>
-        <Avatar rounded size={100} source={require("../assets/profile.jpg")} />
+        <Avatar rounded size={100} source={require("../assets/icon.png")} />
       </View>
       <View style={styles.drawerListContainer}>
         <DrawerContentScrollView {...props}>
