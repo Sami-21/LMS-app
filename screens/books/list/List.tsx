@@ -1,7 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ListItem, Icon } from "@rneui/themed";
 import axios from "axios";
+
+interface book {
+  id: Number;
+  name: String;
+  author: String;
+  edition: number;
+  available: Boolean;
+}
 
 const List: React.FC = () => {
   useEffect(() => {
@@ -17,18 +25,11 @@ const List: React.FC = () => {
           reject(err);
         });
     });
-
     return () => {
       setbooks([]);
     };
   }, []);
-  interface book {
-    id: Number;
-    name: String;
-    author: String;
-    edition: number;
-    available: Boolean;
-  }
+
   const [books, setbooks] = useState<book[]>([]);
   const detailsButton: React.FC = () => <Icon name="visibility" />;
   const editButton: React.FC = () => <Icon name="edit" />;
@@ -38,18 +39,20 @@ const List: React.FC = () => {
     { element: editButton },
     { element: deleteButton },
   ];
-  const buttonPressHandler = (buttonIndex: number): void => {};
+
+  const listItem: React.FC<any> = ({ item }: any) => (
+    <ListItem bottomDivider>
+      <ListItem.Content>
+        <ListItem.Title>{item.name}</ListItem.Title>
+        <ListItem.Subtitle>{item.author}</ListItem.Subtitle>
+      </ListItem.Content>
+      <ListItem.ButtonGroup buttons={buttons}></ListItem.ButtonGroup>
+    </ListItem>
+  );
+
   return (
     <View style={styles.container}>
-      {books.map((book, index) => (
-        <ListItem key={index} bottomDivider>
-          <ListItem.Content>
-            <ListItem.Title>{book.name}</ListItem.Title>
-            <ListItem.Subtitle>{book.author}</ListItem.Subtitle>
-          </ListItem.Content>
-          <ListItem.ButtonGroup buttons={buttons}></ListItem.ButtonGroup>
-        </ListItem>
-      ))}
+      <FlatList data={books} renderItem={listItem} />
     </View>
   );
 };
@@ -57,7 +60,11 @@ const List: React.FC = () => {
 export default List;
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 25,
+  container: {},
+  header: {
+    backgroundColor: "#0f0",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingHorizontal: 25,
   },
 });
