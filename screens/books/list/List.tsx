@@ -1,20 +1,21 @@
-import { FlatList, View, StyleSheet } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { ListItem, Icon, Button } from "@rneui/themed";
+import { FlatList, View, StyleSheet, Text } from "react-native";
+import { ListItem, Icon, Button, Dialog } from "@rneui/themed";
 import axios from "axios";
 import Add from "./partials/Add";
-import AwesomeAlert from "react-native-awesome-alerts";
+import Details from "./partials/Details";
 
-interface book {
-  id: Number;
-  name: String;
-  author: String;
+export interface book {
+  id: number;
+  name: string;
+  author: string;
   edition: number;
-  available: Boolean;
+  available: boolean;
 }
 
 const List: React.FC = () => {
   useEffect(() => {
+    console.log("deleteAlert ,useEffect", deleteAlert);
     getBooks();
     return () => {
       setBooks([]);
@@ -22,9 +23,10 @@ const List: React.FC = () => {
   }, []);
 
   const [books, setBooks] = useState<book[]>([]);
-  const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
   const [addDialog, setAddDialog] = useState<boolean>(false);
-  const selectedBookId = useRef<any>(null);
+  const [detailsDialog, setDetailsDialog] = useState<boolean>(false);
+  const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
+  const selectedBook = useRef<any>(null);
   const detailsButton: React.FC = () => <Icon name="visibility" />;
   const editButton: React.FC = () => <Icon name="edit" />;
   const deleteButton: React.FC = () => <Icon name="delete" />;
@@ -49,30 +51,33 @@ const List: React.FC = () => {
     });
   };
 
-  const deleteBook = async (bookId: number): Promise<void> => {
+  const deleteBook = async (book: book): Promise<void> => {
+    console.log("deleteAlert,deleteBook", deleteAlert);
     new Promise((resolve, reject) => {
       axios
-        .delete(`http://localhost:8000/books/${bookId}`)
+        .delete(`http://localhost:8000/books/${book.id}`)
         .then((res) => {
           getBooks();
+          setDeleteAlert(false);
           resolve(res);
         })
         .catch((err) => reject(err));
     });
   };
 
-  const buttonGroupPress = (index: number, bookId: number): void => {
-    selectedBookId.current = bookId;
+  const buttonGroupPress = (index: number, book: book): void => {
+    selectedBook.current = book;
     switch (index) {
-      case 0: {
-      }
-      case 1: {
-      }
-      case 2: {
+      case 0:
+        setDetailsDialog(true);
+        break;
+      case 1:
+        break;
+      case 2:
         setDeleteAlert(true);
-      }
+        break;
       default:
-        return;
+        break;
     }
   };
 
@@ -84,51 +89,58 @@ const List: React.FC = () => {
       </ListItem.Content>
       <ListItem.ButtonGroup
         buttons={buttons}
-        onPress={(index: number) => buttonGroupPress(index, item.id)}
+        onPress={(index: number) => buttonGroupPress(index, item)}
       ></ListItem.ButtonGroup>
     </ListItem>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={styles.listContainer}>
+      <FlatList data={books} renderItem={listItem} />
+      <View style={styles.addButtonContainer}>
+        {addDialog ? null : (
+          <Button
+            onPress={(): void => setAddDialog(true)}
+            icon={<Icon name="add" color={"#fff"} size={40} />}
+            color="#48bb50"
+            radius={99}
+          />
+        )}
+      </View>
       <Add
         dialogOpen={addDialog}
-        setdialogOpen={setAddDialog}
+        setDialogOpen={setAddDialog}
         getBooks={getBooks}
       />
-      <FlatList data={books} renderItem={listItem} />
-      <View style={styles.buttonContainer}>
-        <Button
-          onPress={(): void => setAddDialog(true)}
-          icon={<Icon name="add" color={"#fff"} size={40} />}
-          color="#48bb50"
-          radius={99}
-        />
-      </View>
-      <AwesomeAlert
-        show={deleteAlert}
-        showProgress={false}
-        title="Warning"
-        message="Are you sure you want to delete this book ?"
-        closeOnTouchOutside={true}
-        closeOnHardwareBackPress={false}
-        showCancelButton={true}
-        showConfirmButton={true}
-        cancelText="No"
-        cancelButtonColor="#bb4850"
-        confirmText="Yes"
-        confirmButtonColor="#48bb50"
-        onDismiss={() => {
-          setDeleteAlert(false);
-        }}
-        onCancelPressed={() => {
-          setDeleteAlert(false);
-        }}
-        onConfirmPressed={() => {
-          deleteBook(selectedBookId.current);
-          setDeleteAlert(false);
-        }}
+      <Details
+        selectedBook={selectedBook.current}
+        dialogOpen={detailsDialog}
+        setDialogOpen={setDetailsDialog}
       />
+      <Dialog
+        animationType="fade"
+        isVisible={deleteAlert}
+        onBackdropPress={() => setDeleteAlert(false)}
+      >
+        <Dialog.Title title="Warning" titleStyle={{ textAlign: "center" }} />
+        <View>
+          <Text style={{ textAlign: "center" }}>
+            Are you sure you want to delete this item !
+          </Text>
+          <View style={styles.deleteButtonsContainer}>
+            <Dialog.Button
+              onPress={() => setDeleteAlert(false)}
+              titleStyle={{ color: "#f55" }}
+              title={"Cancel"}
+            />
+            <Dialog.Button
+              onPress={() => deleteBook(selectedBook.current)}
+              titleStyle={{ color: "#2b2" }}
+              title={"Confirm"}
+            />
+          </View>
+        </View>
+      </Dialog>
     </View>
   );
 };
@@ -136,10 +148,16 @@ const List: React.FC = () => {
 export default List;
 
 const styles = StyleSheet.create({
-  container: {
+  listContainer: {
     flex: 1,
   },
-  buttonContainer: {
+
+  deleteButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  addButtonContainer: {
     position: "absolute",
     bottom: 20,
     right: 20,

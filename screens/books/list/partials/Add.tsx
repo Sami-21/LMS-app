@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import React from "react";
 
-const Add: React.FC<any> = ({ dialogOpen, setdialogOpen, getBooks }) => {
+const Add: React.FC<any> = ({ dialogOpen, setDialogOpen, getBooks }) => {
   const {
     control,
     handleSubmit,
@@ -37,7 +37,7 @@ const Add: React.FC<any> = ({ dialogOpen, setdialogOpen, getBooks }) => {
         .then(async (res) => {
           console.log("book added succcessful");
           axios.get("http://127.0.0.1:8000/books").then((res) => getBooks());
-          setdialogOpen(false);
+          setDialogOpen(false);
           resolve(res);
         })
         .catch((err) => {
@@ -48,108 +48,107 @@ const Add: React.FC<any> = ({ dialogOpen, setdialogOpen, getBooks }) => {
     });
   };
   return (
-    <View>
-      <Dialog
-        isVisible={dialogOpen}
-        onBackdropPress={() => setdialogOpen(false)}
+    <Dialog
+      animationType="fade"
+      isVisible={dialogOpen}
+      onBackdropPress={() => setDialogOpen(false)}
+    >
+      <Dialog.Title title="New Book" />
+      <ScrollView
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignItems: "center",
+          paddingBottom: 40,
+        }}
       >
-        <Dialog.Title title="New Book" />
-        <ScrollView
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-            paddingBottom: 40,
+        <Text style={{ marginTop: 25 }}>Title</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: {
+              value: true,
+              message: "book's title is required",
+            },
+            minLength: {
+              value: 3,
+              message: "your book's title should be atleast 3 character",
+            },
           }}
-        >
-          <Text style={{ marginTop: 25 }}>Title</Text>
-          <Controller
-            control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "book's title is required",
-              },
-              minLength: {
-                value: 3,
-                message: "your book's title should be atleast 3 character",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.inputFields}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="title"
-          />
-          {errors.title && (
-            <Text style={styles.errorMessage}>{errors.title.message} </Text>
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.inputFields}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
           )}
+          name="title"
+        />
+        {errors.title && (
+          <Text style={styles.errorMessage}>{errors.title.message} </Text>
+        )}
 
-          <Text>Author</Text>
-          <Controller
-            control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "Author's name is required",
-              },
-              minLength: {
-                value: 4,
-                message: "author's name should be atleast 4 character",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.inputFields}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="author"
-          />
-          {errors.author && (
-            <Text style={styles.errorMessage}>{errors.author.message} </Text>
+        <Text>Author</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: {
+              value: true,
+              message: "Author's name is required",
+            },
+            minLength: {
+              value: 4,
+              message: "author's name should be atleast 4 character",
+            },
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.inputFields}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
           )}
+          name="author"
+        />
+        {errors.author && (
+          <Text style={styles.errorMessage}>{errors.author.message} </Text>
+        )}
 
-          <Text>edition N°</Text>
-          <Controller
-            control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "book's edition is required",
-              },
-              pattern: {
-                value: /^[1-9]\d*$/,
-                message: "book's edition is invalid",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.inputFields}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="edition"
-          />
-          {errors.edition && (
-            <Text style={styles.errorMessage}>{errors.edition.message} </Text>
+        <Text>edition N°</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: {
+              value: true,
+              message: "book's edition is required",
+            },
+            pattern: {
+              value: /^[1-9]\d*$/,
+              message: "book's edition is invalid",
+            },
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.inputFields}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
           )}
+          name="edition"
+        />
+        {errors.edition && (
+          <Text style={styles.errorMessage}>{errors.edition.message} </Text>
+        )}
 
-          <Button
-            style={{ marginBottom: 25 }}
-            title="Add"
-            onPress={handleSubmit(onSubmit)}
-          />
-        </ScrollView>
-      </Dialog>
-    </View>
+        <Button
+          style={{ marginBottom: 25 }}
+          title="Add"
+          onPress={handleSubmit(onSubmit)}
+        />
+      </ScrollView>
+    </Dialog>
   );
 };
 

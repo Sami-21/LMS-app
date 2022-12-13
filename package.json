@@ -27,7 +27,6 @@
     "react-dom": "17.0.2",
     "react-hook-form": "^7.33.0",
     "react-native": "0.68.2",
-    "react-native-awesome-alerts": "^2.0.0",
     "react-native-datefield": "^0.3.5",
     "react-native-gesture-handler": "~2.2.1",
     "react-native-reanimated": "^2.12.0",
