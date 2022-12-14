@@ -4,6 +4,7 @@ import { ListItem, Icon, Button, Dialog } from "@rneui/themed";
 import axios from "axios";
 import Add from "./partials/Add";
 import Details from "./partials/Details";
+import Edit from "./partials/Edit";
 
 export interface book {
   id: number;
@@ -15,7 +16,6 @@ export interface book {
 
 const List: React.FC = () => {
   useEffect(() => {
-    console.log("deleteAlert ,useEffect", deleteAlert);
     getBooks();
     return () => {
       setBooks([]);
@@ -24,6 +24,7 @@ const List: React.FC = () => {
 
   const [books, setBooks] = useState<book[]>([]);
   const [addDialog, setAddDialog] = useState<boolean>(false);
+  const [editDialog, setEditDialog] = useState<boolean>(false);
   const [detailsDialog, setDetailsDialog] = useState<boolean>(false);
   const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
   const selectedBook = useRef<any>(null);
@@ -52,7 +53,6 @@ const List: React.FC = () => {
   };
 
   const deleteBook = async (book: book): Promise<void> => {
-    console.log("deleteAlert,deleteBook", deleteAlert);
     new Promise((resolve, reject) => {
       axios
         .delete(`http://localhost:8000/books/${book.id}`)
@@ -72,6 +72,7 @@ const List: React.FC = () => {
         setDetailsDialog(true);
         break;
       case 1:
+        setEditDialog(true);
         break;
       case 2:
         setDeleteAlert(true);
@@ -112,11 +113,22 @@ const List: React.FC = () => {
         setDialogOpen={setAddDialog}
         getBooks={getBooks}
       />
-      <Details
-        selectedBook={selectedBook.current}
-        dialogOpen={detailsDialog}
-        setDialogOpen={setDetailsDialog}
-      />
+      {selectedBook.current != null ? (
+        <>
+          <Edit
+            dialogOpen={editDialog}
+            setDialogOpen={setEditDialog}
+            getBooks={getBooks}
+            book={selectedBook.current}
+          />
+          <Details
+            selectedBook={selectedBook.current}
+            dialogOpen={detailsDialog}
+            setDialogOpen={setDetailsDialog}
+          />
+        </>
+      ) : null}
+
       <Dialog
         animationType="fade"
         isVisible={deleteAlert}

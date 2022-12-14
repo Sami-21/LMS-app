@@ -8,6 +8,7 @@ const Add: React.FC<any> = ({ dialogOpen, setDialogOpen, getBooks }) => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -34,14 +35,13 @@ const Add: React.FC<any> = ({ dialogOpen, setDialogOpen, getBooks }) => {
             },
           }
         )
-        .then(async (res) => {
-          console.log("book added succcessful");
-          axios.get("http://127.0.0.1:8000/books").then((res) => getBooks());
+        .then((res) => {
+          reset();
+          getBooks();
           setDialogOpen(false);
           resolve(res);
         })
         .catch((err) => {
-          console.log("addition failed");
           console.log(err.response.data);
           reject(err);
         });

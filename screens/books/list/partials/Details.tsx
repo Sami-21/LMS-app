@@ -14,14 +14,10 @@ const Details: React.FC<any> = ({
       isVisible={dialogOpen}
       onBackdropPress={() => setDialogOpen(false)}
     >
-      {selectedBook == null ? null : (
-        <>
-          <Dialog.Title title="Book Details" />
-          <Text>{`title : ${selectedBook.name}`}</Text>
-          <Text>{`author : ${selectedBook.author}`}</Text>
-          <Text>{`edition N° : ${selectedBook.edition}`}</Text>
-        </>
-      )}
+      <Dialog.Title title="Book Details" />
+      <Text>{`title : ${selectedBook.name}`}</Text>
+      <Text>{`author : ${selectedBook.author}`}</Text>
+      <Text>{`edition N° : ${selectedBook.edition}`}</Text>
       <View style={styles.buttonContainer}>
         <Dialog.Button
           onPress={() => setDialogOpen(false)}
